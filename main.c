@@ -5,6 +5,9 @@
 void read_matrix(FILE *fp, bool m[9][9][9]);
 void print_matrix(bool m[9][9][9]);
 void solve_matrix(bool m[9][9][9]);
+bool nine_logic_xor(bool v[9]);
+bool rc_control(bool r[9][9], int value);
+bool square_control(bool sq[3][3][9]);
 
 int main(void){
     FILE *fp;
@@ -49,25 +52,42 @@ void print_matrix(bool m[9][9][9]){
     for(int i=0; i<9; i++){
         for(int j=0; j<9; j++){
             for(int z=1; z<=9; z++){
-                if(m[i][j][z-1]) {n=z; printf("%d", z);}
+                if(m[i][j][z-1]) { n=z; break;}
                 else {n=0;}
             }
-            // if(n == 0) printf(" ");
-            // else printf("%d", n);
-            printf(" ");
+            if(n == 0) printf("  ");
+            else printf("%d ", n);
+            if(j==2 || j==5) printf("|");
         }
         printf("\n");
+        if(i==2 || i==5) printf("------|------|------\n");
     }
 }
 
-// void solve_matrix(bool m[9][9][9]){
-//     int a={1,2,3,4,5,6,7,8,9};
-//     for(int i=0; i<9; i++){
-//         for(int j=0; j<9; j++){
-//             for(int z=0; z<9; z++){
-//                 printf("-");
-//             }
-//         }
-//     }
-//     printf("\n");
-// }
+void solve_matrix(bool m[9][9][9]){
+    for(int i=0; i<9; i++){
+        for(int j=0; j<9; j++){
+            if(!nine_logic_xor(m[i][j])){
+                for(int z=0; z<9; z++){
+                    //if(rc_control(m[i], z) and rc_control(m[][i], z)) m[i][j][z]=true;
+                }
+            }
+        }
+    }
+}
+
+bool nine_logic_xor(bool v[9]){
+    int n=0;
+    for(int i=0; i<9; i++){
+        if(v[i]) n++;
+    }
+    if(n==1) return true;
+    return false;
+}
+
+bool rc_control(bool r[9][9], int value){
+    for(int i=0; i<9; i++)
+        if(r[i][value]) return false;
+    return true;
+}
+bool square_control(bool sq[3][3][9]);
